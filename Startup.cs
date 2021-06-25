@@ -63,5 +63,7 @@ namespace BapBlazor
                 endpoints.MapFallbackToPage("/_Host");
             });
         }
+
+        //a test for pushing to git
     }
 }
