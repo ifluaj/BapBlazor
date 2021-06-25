@@ -1,6 +1,7 @@
 # BapBlazor
 ## Team
 Brendan Nolan
+Bernadette Henry
 ## Overview
 
 This is a simple Visual Studio Blazor Project for the Belfast Met Microsoft Academy.
