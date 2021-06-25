@@ -23,4 +23,5 @@ namespace BapBlazor
                     webBuilder.UseStartup<Startup>();
                 });
     }
+    //comment for test push 
 }
