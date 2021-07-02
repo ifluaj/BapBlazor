@@ -97,6 +97,7 @@
 
     }
 
+    //methods to sort by app ID number in both ascending and descending order
     public void SortTableByIdAsc()
     {
 
@@ -107,6 +108,7 @@
 
         StoreApps.Sort((x, y) => y.Id.CompareTo(x.Id));
 
+    //methods to sort by app Name in both ascending and descending order   
     }
     public void SortTableByNameAsc()
     {
@@ -118,6 +120,8 @@
 
         StoreApps.Sort((x, y) => y.Name.CompareTo(x.Name));
     }
+
+    //methods to sort by Rating in both ascending and descending order
     public void SortTableByRatingAsc()
     {
         StoreApps.Sort((x, y) => x.Rating.CompareTo(y.Rating));
@@ -128,6 +132,8 @@
 
         StoreApps.Sort((x, y) => y.Rating.CompareTo(x.Rating));
     }
+
+    //methods to sort by amount of People that rated in both ascending and descending order
     public void SortTableByPeopleAsc()
     {
         StoreApps.Sort((x, y) => x.People.CompareTo(y.People));
@@ -138,6 +144,8 @@
 
         StoreApps.Sort((x, y) => y.People.CompareTo(x.People));
     }
+
+    //methods to sort by app Category in both ascending and descending order
     public void SortTableByCategoryAsc()
     {
         StoreApps.Sort((x, y) => x.Category.CompareTo(y.Category));
@@ -148,6 +156,8 @@
 
         StoreApps.Sort((x, y) => y.Category.CompareTo(x.Category));
     }
+
+    //methods to sort by Date app was registered in both ascending and descending order
     public void SortTableByDateAsc()
     {
         StoreApps.Sort((x, y) => x.Date.CompareTo(y.Date));
@@ -158,6 +168,8 @@
 
         StoreApps.Sort((x, y) => y.Date.CompareTo(x.Date));
     }
+
+    //methods to sort by Price of each app in both ascending and descending order
     public void SortTableByPriceAsc()
     {
         StoreApps.Sort((x, y) => x.Price.CompareTo(y.Price));
