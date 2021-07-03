@@ -1,4 +1,4 @@
-@page "/analysis"
+@page "/mostpopular"
 
 @using System.Net.Http
 
@@ -10,7 +10,7 @@
 <div class="container-fluid">
 
     <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - First Ten Records</h3>
+        <h3 class="text-center">Top 100 Apps</h3>
     </div>
 
     <div class="row" style="margin:25px;">
@@ -21,15 +21,25 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Rating</th>
+                        <th>People</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var storeapp in StoreApps)
                     {
-                        <tr class="justify-content-center">
-                            <td>@storeapp.Id</td>
-                            <td>@storeapp.Name</td>
-                        </tr>
+                    <tr class="justify-content-center">
+                        <td>@storeapp.Id</td>
+                        <td>@storeapp.Name</td>
+                        <td>@storeapp.Rating</td>
+                        <td>@storeapp.People</td>
+                        <td>@storeapp.Category</td>
+                        <td>@storeapp.Date</td>
+                        <td>@storeapp.Price</td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -51,7 +61,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var apiName = "api/StoreApps/FirstTen";
+        var apiName = "api/StoreApps/MostPopular";
         var httpResponse = await client.GetAsync(apiName);
 
         if (httpResponse.IsSuccessStatusCode)
