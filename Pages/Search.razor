@@ -60,7 +60,9 @@
             </div>
         }
     </div>
-
+    <div>
+        <h1>@insufficient</h1>
+    </div>
 
 </div>
 
@@ -93,8 +95,10 @@
 @code{
     void SearchClear()
     {
-        StoreAppsResult.Clear();     
-        
+        if(MySearch != null )
+            StoreAppsResult.Clear();
+            insufficient = "";
+
     }
 }
 
@@ -107,14 +111,23 @@
     public SearchModel searchModel = new();
 
     string MySearch = "";
+    string insufficient = "";
 
     public void SubmittedName()
     {
+
         Logger.LogInformation(searchModel.Name);
 
         MySearch = searchModel.Name;
-        DisplaySearch(MySearch);
-     
+        if (MySearch != null && MySearch.Length >= 3)//validate 3 char and prevent empty search exception
+        {
+            DisplaySearch(MySearch);
+            insufficient ="";//reset insufficient warning
+        }
+        else
+        {
+            insufficient = "Please enter 3 or more characters to Search!";
+        }
     }
 
 
@@ -127,9 +140,7 @@
     {
         var apiName = "api/StoreApps";
         var httpResponse = await client.GetAsync(apiName);
-        //var results = apiName.(MySearch);
-        //var searchResult = apiName.IndexOf(MySearch);
-
+       
         if (httpResponse.IsSuccessStatusCode)
         {
             responseBody = await httpResponse.Content.ReadAsStringAsync();
@@ -146,7 +157,7 @@
 
         foreach (var storeApp in StoreApps)
         {
-            if (MyWord != null && storeApp.Name.ToLower().Contains(MyWord.ToLower()))
+            if (storeApp.Name.ToLower().Contains(MyWord.ToLower()))
             {
                 StoreAppsResult.Add(storeApp);
             }
