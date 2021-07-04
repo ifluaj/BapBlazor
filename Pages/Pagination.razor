@@ -22,7 +22,7 @@
 
         @if (StoreApps == null)
         {
-            <p><em>Loading...</em></p>
+            <p><em>No Records to Show.</em></p>
         }
         else
         {
@@ -41,7 +41,7 @@
                 <tbody>
                     @foreach (var storeapp in StoreApps)
                     {
-                        if (@StoreApps.IndexOf(storeapp) >= pageStart && StoreApps.IndexOf(storeapp) < pageEnd)
+                        if (@StoreApps.IndexOf(storeapp) >= currentCount && StoreApps.IndexOf(storeapp) < appsPerPage)
                         {
 
                             <tr class="justify-content-center">
@@ -62,7 +62,7 @@
         </div>
     </div>
 </div>
-<button class="btn btn-primary" @onclick="Previous">Previus</button> &nbsp; <button class="btn btn-primary" @onclick="Next">Next</button>
+<button class="btn btn-primary" @onclick="PreviousCount">Previous</button> &nbsp; <button class="btn btn-primary" @onclick="NextCount">Next</button>
 
 
 @code {
@@ -70,6 +70,7 @@
     string responseBody = "";
     List<StoreApp> StoreApps = new List<StoreApp>();
 
+    //Get Store Apps to show on page
     protected override async Task OnInitializedAsync()
     {
         var apiName = "api/StoreApps";
@@ -84,22 +85,38 @@
         }
     }
 
-    private int pageStart = 0;
-    private int pageEnd = 10;
-    private int pagerSize = 10;
+    //public int TotalPages()
+    //{
+    //    int totalPages = StoreApps.Count / appsPerPage;
+    //    return totalPages;
+    //}
 
-    private void Next()
+    //variables for Paginate functions
+    private int currentCount = 0;
+    private int appsPerPage = 1000;
+    private int addToCount = 1000;
+    private int pageNumber = 0;
+    private int totPages = 0;
+
+    //Move to next set of records
+    private void NextCount()
     {
-        pageStart += pagerSize;
-        pageEnd += pagerSize;
+        totPages = 4;
+        if (pageNumber <= totPages)
+        {
+            currentCount += addToCount;
+            appsPerPage += addToCount;
+            pageNumber++;
+        }
     }
 
-    private void Previous()
+    //Move to previous set of records
+    private void PreviousCount()
     {
-        if (pageStart >= pagerSize)
+        if (currentCount >= addToCount)
         {
-            pageStart -= pagerSize;
-            pageEnd -= pagerSize;
+            currentCount -= addToCount;
+            appsPerPage -= addToCount;
         }
     }
 
