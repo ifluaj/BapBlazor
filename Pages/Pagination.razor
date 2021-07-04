@@ -91,12 +91,15 @@
     //    return totalPages;
     //}
 
+    //length or count variable
+
     //variables for Paginate functions
     private int currentCount = 0;
     private int appsPerPage = 1000;
     private int addToCount = 1000;
     private int pageNumber = 0;
     private int totPages = 0;
+    public string alert = "";
 
     //Move to next set of records
     private void NextCount()
@@ -107,6 +110,10 @@
             currentCount += addToCount;
             appsPerPage += addToCount;
             pageNumber++;
+            if (appsPerPage < 1000)
+            {
+                alert = "end of records";
+            }
         }
     }
 
