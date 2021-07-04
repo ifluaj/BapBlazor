@@ -146,7 +146,7 @@
 
         foreach (var storeApp in StoreApps)
         {
-            if (storeApp.Name.ToLower().Contains(MyWord.ToLower()))
+            if (MyWord != null && storeApp.Name.ToLower().Contains(MyWord.ToLower()))
             {
                 StoreAppsResult.Add(storeApp);
             }
