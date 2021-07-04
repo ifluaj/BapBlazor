@@ -24,19 +24,22 @@
 
 @*To do:
     expand from 10 recrods to full db
-    allow search from partial words 
-    remove case sensitive
+    *allow search from partial words
+    *remove case sensitive
     add searching/spinner advisory
-    return more than just name/no
-    remove test line showing submutted text on blazor
-    *@
+    *return more than just name/no
+    *remove test line showing submutted text on blazor
+    *clear previous searches function
+    restore validation for searches
+
+*@
 
 @********************************************the magic is happening below this*************************************@
 
+@*
 
-
-@*Reference table only - DO NOT DISTURB!!*@
-<div class="container-fluid">
+    @*Reference table only - DO NOT DISTURB!!*@
+@*<div class="container-fluid">
 
     <div class="row justify-content-center" style="margin-bottom:50px">
         <h3 class="text-center">Store Apps - First Ten Records</h3>
@@ -72,13 +75,13 @@
     </div>
 
 </div>
-
-@*LIVE table to display search results  *@
+    *@
+@*LIVE table to display search results //updated for more info *@
 
 <div class="container-fluid">
 
     <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - First Ten Records</h3>
+        <h3 class="text-center">Store Apps - Search Results</h3>
     </div>
 
     <div class="row" style="margin:25px;">
@@ -89,6 +92,11 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Rating</th>
+                        <th>People</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,6 +105,11 @@
                         <tr class="justify-content-center">
                             <td>@storeapp.Id</td>
                             <td>@storeapp.Name</td>
+                            <td>@storeapp.Rating</td>
+                            <td>@storeapp.People</td>
+                            <td>@storeapp.Category</td>
+                            <td>@storeapp.Date</td>
+                            <td>@storeapp.Price</td>
                         </tr>
 
                     }
@@ -111,11 +124,30 @@
         }
     </div>
 
+
 </div>
 
 
 
 @*input box and button*@
+@*
+    <EditForm Model="@searchModel" OnValidSubmit="@SubmittedName">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <InputText id="name" @bind-Value="searchModel.Name" />
+
+        <button type="submit">Submit</button>
+    </EditForm>
+*@
+
+
+
+
+
+
+
+@*test input box and button//testing oninput bind-event//clear search result added*@
 
 <EditForm Model="@searchModel" OnValidSubmit="@SubmittedName">
     <DataAnnotationsValidator />
@@ -124,7 +156,48 @@
     <InputText id="name" @bind-Value="searchModel.Name" />
 
     <button type="submit">Submit</button>
+    @*<button type="reset">Clear Search</button>*@
+
 </EditForm>
+
+<EditForm Model="@searchModel" OnValidSubmit="@SearchClear">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    @*<InputText id="name" @bind-Value="searchModel.Name" />*@
+
+    <button type="submit">Clear Search Results</button>
+
+</EditForm>
+    
+@code{
+    void SearchClear()
+    {
+
+        //DisplaySearch(string.Empty);
+        StoreAppsResult.Clear();
+
+        //StoreApps.Clear();
+        // StoreApps.Clear();
+
+
+        /*foreach (var storeApp in StoreApps)
+         {
+             storeApp.Name = null;
+             StoreAppsResult.Clear();
+
+         }*/
+
+
+
+        // searchModel.Name = String.Empty;
+        //MySearch = String.Empty;
+
+    }
+}
+
+
+
 
 @*MySearch variable test display on blazer*@
 @*@MySearch*@
@@ -135,6 +208,7 @@
     public SearchModel searchModel = new();//changed to public
 
     string MySearch = "";
+
 
 
     public void SubmittedName()
@@ -154,7 +228,7 @@
     string responseBody = "";
     List<StoreApp> StoreApps = new List<StoreApp>();
     List<StoreApp> StoreAppsResult = new List<StoreApp>();
-    
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -172,12 +246,14 @@
 
     }
 
+    @*Search method//Added ToLower = not cap sensitive//Added Contains = Partial complete ok*@
+
     public void DisplaySearch(string MyWord)
     {
 
         foreach (var storeApp in StoreApps)
         {
-            if(storeApp.Name == MyWord)
+            if (storeApp.Name.ToLower().Contains(MyWord.ToLower()))
             {
                 StoreAppsResult.Add(storeApp);
             }

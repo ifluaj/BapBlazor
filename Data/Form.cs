@@ -2,10 +2,12 @@ using System.ComponentModel.DataAnnotations;
 
 public class SearchModel
 {
-    [Required]
-    [StringLength(20, MinimumLength = 3, ErrorMessage = "Search term should be between {2} and {1} characters long.")]
+    //[Required]
+    //[StringLength(20, MinimumLength = 3, ErrorMessage = "Search term should be between {2} and {1} characters long.")]
     public string Name { get; set; }
+   
 }
+
 
 public class AddModel
 {
