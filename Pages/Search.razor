@@ -13,70 +13,7 @@
 
 <p>This component demonstrates searching the datasaset.</p>
 
-<p>One way to tackle this problem;</p>
-<ul>
-    <li>Start with pretty much the same code as FetchStoreApps.razor.</li>
-    <li>Add a form to the page e.g. an input and a submit button.</li>
-    <li>Create a new search model and method.</li>
-    <li>When looping over StoreApps use IndexOf to test your search term.</li>
-    <li><a href="https://docs.microsoft.com/en-us/aspnet/core/blazor/forms-validation?view=aspnetcore-5.0">Blazor Forms</a></li>
-</ul>
-
-@*To do:
-    expand from 10 recrods to full db
-    *allow search from partial words
-    *remove case sensitive
-    add searching/spinner advisory
-    *return more than just name/no
-    *remove test line showing submutted text on blazor
-    *clear previous searches function
-    restore validation for searches
-
-*@
-
-@********************************************the magic is happening below this*************************************@
-
-@*
-
-    @*Reference table only - DO NOT DISTURB!!*@
-@*<div class="container-fluid">
-
-    <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - First Ten Records</h3>
-    </div>
-
-    <div class="row" style="margin:25px;">
-        @if (StoreApps != null)
-        {
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Id</th>
-                        <th>Name</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var storeapp in StoreApps)
-                    {
-                        <tr class="justify-content-center">
-                            <td>@storeapp.Id</td>
-                            <td>@storeapp.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        @if (!StoreApps.Any())
-        {
-            <div class="justify-content-center">
-                <h5>No records to show</h5>
-            </div>
-        }
-    </div>
-
-</div>
-    *@
-@*LIVE table to display search results //updated for more info *@
+@*LIVE table to display search results //updated for more columns *@
 
 <div class="container-fluid">
 
@@ -128,26 +65,7 @@
 </div>
 
 
-
-@*input box and button*@
-@*
-    <EditForm Model="@searchModel" OnValidSubmit="@SubmittedName">
-        <DataAnnotationsValidator />
-        <ValidationSummary />
-
-        <InputText id="name" @bind-Value="searchModel.Name" />
-
-        <button type="submit">Submit</button>
-    </EditForm>
-*@
-
-
-
-
-
-
-
-@*test input box and button//testing oninput bind-event//clear search result added*@
+@*input box and button//testing oninput bind-event//clear search result added*@
 
 <EditForm Model="@searchModel" OnValidSubmit="@SubmittedName">
     <DataAnnotationsValidator />
@@ -159,6 +77,8 @@
     @*<button type="reset">Clear Search</button>*@
 
 </EditForm>
+
+@*Clear Searh results button*@
 
 <EditForm Model="@searchModel" OnValidSubmit="@SearchClear">
     <DataAnnotationsValidator />
@@ -173,55 +93,28 @@
 @code{
     void SearchClear()
     {
-
-        //DisplaySearch(string.Empty);
-        StoreAppsResult.Clear();
-
-        //StoreApps.Clear();
-        // StoreApps.Clear();
-
-
-        /*foreach (var storeApp in StoreApps)
-         {
-             storeApp.Name = null;
-             StoreAppsResult.Clear();
-
-         }*/
-
-
-
-        // searchModel.Name = String.Empty;
-        //MySearch = String.Empty;
-
+        StoreAppsResult.Clear();     
+        
     }
 }
-
-
 
 
 @*MySearch variable test display on blazer*@
 @*@MySearch*@
 
 
-
 @code {
-    public SearchModel searchModel = new();//changed to public
+    public SearchModel searchModel = new();
 
     string MySearch = "";
 
-
-
     public void SubmittedName()
-
-
-
     {
-        //Logger.LogInformation("HandleValidSubmit called");
         Logger.LogInformation(searchModel.Name);
 
         MySearch = searchModel.Name;
         DisplaySearch(MySearch);
-        // Process the valid form
+     
     }
 
 
@@ -232,7 +125,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var apiName = "api/StoreApps/FirstTen";
+        var apiName = "api/StoreApps";
         var httpResponse = await client.GetAsync(apiName);
         //var results = apiName.(MySearch);
         //var searchResult = apiName.IndexOf(MySearch);
@@ -246,7 +139,7 @@
 
     }
 
-    @*Search method//Added ToLower = not cap sensitive//Added Contains = Partial complete ok*@
+    @*DisplaySearch method//Added ToLower = not cap sensitive//Added Contains = Partial complete ok*@
 
     public void DisplaySearch(string MyWord)
     {
