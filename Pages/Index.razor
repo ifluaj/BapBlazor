@@ -1,13 +1,100 @@
 @page "/"
+
+@using System.Net.Http
+
+@inject HttpClient client
+
+@using Newtonsoft.Json
+@using Data
+
 <style>
     img {
         display: block;
         margin-left: auto;
         margin-right: auto;
     }
-    h2{text-align: center;}
+    h3 {
+        text-align: center;
+    }
+    
+    h3 {
+        color: #0d277c;
+    }
 </style>
-<img src="https://i.ibb.co/ThRJPL5/b2a77bdb-01f0-4c8d-b4e9-aaef4dbc6554.jpg" alt="BAP Logo" style="width:40%;">
+<img src="https://i.ibb.co/ThRJPL5/b2a77bdb-01f0-4c8d-b4e9-aaef4dbc6554.jpg" alt="BAP Logo" style="width:35%;">
+<h3>Welcome to Belfast App Productions - one of the leading makers of Mobile Apps in Northern Ireland. Explore this website to read through and see trends in historical app data from the Microsoft Store.</h3>
 
-<h2>Welcome to Belfast App Productions - one of the leading makers of Mobile Apps in Northern Ireland. Explore this website to read through and see trends in historical app data from the Microsoft Store.
-    </h2>
+<div class="container-fluid">
+    <style>
+        tr:nth-child(even) {
+            background-color: #cbeff7
+        }
+
+        th {
+            background-color: #28b7ee;
+        }
+
+        h4 {
+            text-align: center;
+            color: #1442d8
+        }
+        table {
+            width: 50%;
+            height: 50px;
+        }
+    </style>
+
+    <div class="row justify-content-center" style="margin-bottom:50px"></div>
+    <h4> Top 3 Apps </h4>
+    <div class="row" style="margin:50px;">
+        @if (StoreApps != null)
+        {
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Rating</th>
+                        <th>Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var storeapp in StoreApps)
+                    {
+                        <tr class="justify-content-center">
+                            <td>@storeapp.Name</td>
+                            <td>@storeapp.Rating</td>
+                            <td>@storeapp.Price</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (!StoreApps.Any())
+        {
+            <div class="justify-content-center">
+                <h5>No records to show</h5>
+            </div>
+        }
+    </div>
+
+</div>
+
+@code {
+
+    string responseBody = "";
+    List<StoreApp> StoreApps = new List<StoreApp>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var apiName = "api/StoreApps/Top3Apps";
+        var httpResponse = await client.GetAsync(apiName);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            responseBody = await httpResponse.Content.ReadAsStringAsync();
+            StoreApps = JsonConvert.DeserializeObject<List<StoreApp>>(responseBody);
+            StateHasChanged();
+        }
+
+    }
+}

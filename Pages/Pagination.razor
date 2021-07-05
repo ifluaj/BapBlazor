@@ -7,14 +7,19 @@
 @using Newtonsoft.Json
 @using Data
 
-<h1>Pagination</h1>
-
-<p>This component demonstrates pagination of the databaset.</p>
-
 <div class="container-fluid">
+    <style>
+        tr:nth-child(even) {background-color:#cbeff7}
 
+        th {
+            background-color: #28b7ee;
+        }
+        h1 {
+            color: #0d277c;
+        }
+    </style>
     <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - Paginate Results</h3>
+        <h1 class="text-center">All Store Apps - Paginate Results</h1>
     </div>
 
     <div class="row" style="margin:25px;">
@@ -41,7 +46,7 @@
                 <tbody>
                     @foreach (var storeapp in StoreApps)
                     {
-                        if (@StoreApps.IndexOf(storeapp) >= currentCount && StoreApps.IndexOf(storeapp) < appsPerPage)
+                        if (@StoreApps.IndexOf(storeapp) >= firstCountOfPage && StoreApps.IndexOf(storeapp) < lastCountOfPage)
                         {
 
                             <tr class="justify-content-center">
@@ -90,13 +95,13 @@
     //    int totalPages = StoreApps.Count / appsPerPage;
     //    return totalPages;
     //}
-
+    
     //length or count variable
 
     //variables for Paginate functions
-    private int currentCount = 0;
-    private int appsPerPage = 1000;
-    private int addToCount = 1000;
+    private int firstCountOfPage = 0;
+    private int lastCountOfPage = 10;
+    private int addToCount = 10;
     private int pageNumber = 0;
     private int totPages = 0;
     public string alert = "";
@@ -107,23 +112,19 @@
         totPages = 4;
         if (pageNumber <= totPages)
         {
-            currentCount += addToCount;
-            appsPerPage += addToCount;
+            firstCountOfPage += addToCount;
+            lastCountOfPage += addToCount;
             pageNumber++;
-            if (appsPerPage < 1000)
-            {
-                alert = "end of records";
-            }
         }
     }
 
     //Move to previous set of records
     private void PreviousCount()
     {
-        if (currentCount >= addToCount)
+        if (firstCountOfPage >= addToCount)
         {
-            currentCount -= addToCount;
-            appsPerPage -= addToCount;
+            firstCountOfPage -= addToCount;
+            lastCountOfPage -= addToCount;
         }
     }
 
