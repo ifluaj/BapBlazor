@@ -9,23 +9,35 @@
 @using Microsoft.Extensions.Logging
 @inject ILogger<Search> Logger
 
-<h1>Search</h1>
 
-<p>This component demonstrates searching the datasaset.</p>
 
 @*LIVE table to display search results //updated for more columns *@
 
 <div class="container-fluid">
+    <style>
+        tr:nth-child(even) {
+            background-color: #cbeff7
+        }
 
+
+
+        th {
+            background-color: #28b7ee;
+        }
+
+        h1 {
+            color: #0d277c;
+        }
+    </style>
     <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - Search Results</h3>
+        <h1 class="text-center">Store Apps - Search Results</h1>
     </div>
 
     <div class="row" style="margin:25px;">
         @if (StoreApps != null)
         {
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
+            <table class="table">
+                <thead >
                     <tr>
                         <th>Id</th>
                         <th>Name</th>

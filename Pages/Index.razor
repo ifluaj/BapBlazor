@@ -7,6 +7,7 @@
 @using Newtonsoft.Json
 @using Data
 
+@*Styling of the image and text - colour, size and text align to center*@
 <style>
     img {
         display: block;
@@ -21,9 +22,10 @@
         color: #0d277c;
     }
 </style>
-<img src="https://i.ibb.co/ThRJPL5/b2a77bdb-01f0-4c8d-b4e9-aaef4dbc6554.jpg" alt="BAP Logo" style="width:35%;">
+<img src="https://i.ibb.co/ThRJPL5/b2a77bdb-01f0-4c8d-b4e9-aaef4dbc6554.jpg" alt="BAP Logo" style="width:40%;">
 <h3>Welcome to Belfast App Productions - one of the leading makers of Mobile Apps in Northern Ireland. Explore this website to read through and see trends in historical app data from the Microsoft Store.</h3>
 
+@*Style of table - personalised colour scheme and text alignment*@
 <div class="container-fluid">
     <style>
         tr:nth-child(even) {
@@ -49,22 +51,32 @@
     <div class="row" style="margin:50px;">
         @if (StoreApps != null)
         {
+            @*Table created to have headings for each Category*@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Id</th>
                         <th>Name</th>
                         <th>Rating</th>
+                        <th>People</th>
+                        <th>Category</th>
+                        <th>Date</th>
                         <th>Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var storeapp in StoreApps)
                     {
-                        <tr class="justify-content-center">
-                            <td>@storeapp.Name</td>
-                            <td>@storeapp.Rating</td>
-                            <td>@storeapp.Price</td>
-                        </tr>
+                        @*Calling the data from StoreApps to display in the table*@
+                    <tr class="justify-content-center">
+                        <td>@storeapp.Id</td>
+                        <td>@storeapp.Name</td>
+                        <td>@storeapp.Rating</td>
+                        <td>@storeapp.People</td>
+                        <td>@storeapp.Category</td>
+                        <td>@storeapp.Date</td>
+                        <td>@storeapp.Price</td>
+                    </tr>
                     }
                 </tbody>
             </table>
@@ -81,12 +93,13 @@
 
 @code {
 
+    //create a list of all the Store App data
     string responseBody = "";
     List<StoreApp> StoreApps = new List<StoreApp>();
 
     protected override async Task OnInitializedAsync()
     {
-        var apiName = "api/StoreApps/Top3Apps";
+        var apiName = "api/StoreApps/Top3Apps"; //calling the API page api/StoreApps/Top3 to display the top 3 apps function created in the API
         var httpResponse = await client.GetAsync(apiName);
 
         if (httpResponse.IsSuccessStatusCode)

@@ -8,29 +8,44 @@
 @using Data
 
 <div class="container-fluid">
+    @*Styling the design of the page and table- adding personalised colour scheme*@
     <style>
-        tr:nth-child(even) {background-color:#cbeff7}
+        tr:nth-child(even) 
+        {
+            background-color: #cbeff7
 
-        th {
+        }
+
+        th 
+        {
             background-color: #28b7ee;
         }
-        h1 {
+
+        h1 
+        {
             color: #0d277c;
         }
     </style>
+
+    @*Make text centralised and add title of page*@
     <div class="row justify-content-center" style="margin-bottom:50px">
         <h1 class="text-center">All Store Apps - Paginate Results</h1>
     </div>
 
+    @*Adding Next and Previous buttons to page*@
+    <button class="btn btn-primary" @onclick="PreviousCount">Previous</button> &nbsp; <button class="btn btn-primary" @onclick="NextCount">Next</button>
+
     <div class="row" style="margin:25px;">
 
-
+        @*If statement to bring in and show data from StoreApps*@
         @if (StoreApps == null)
         {
             <p><em>No Records to Show.</em></p>
         }
         else
         {
+            @*Table created to show to have columns with headings
+              Id, Name, Rating, People, Category, Date and Price*@
             <table class="table">
                 <thead>
                     <tr>
@@ -46,9 +61,10 @@
                 <tbody>
                     @foreach (var storeapp in StoreApps)
                     {
-                        if (@StoreApps.IndexOf(storeapp) >= firstCountOfPage && StoreApps.IndexOf(storeapp) < lastCountOfPage)
+                        @*If Statement to show how to display app data*@
+                        if (@StoreApps.IndexOf(storeapp) >= pageStart && StoreApps.IndexOf(storeapp) < pageEnd)
                         {
-
+                            @*Bring in StoreApps data to display in the table*@
                             <tr class="justify-content-center">
                                 <td>@storeapp.Id</td>
                                 <td>@storeapp.Name</td>
@@ -67,18 +83,17 @@
         </div>
     </div>
 </div>
-<button class="btn btn-primary" @onclick="PreviousCount">Previous</button> &nbsp; <button class="btn btn-primary" @onclick="NextCount">Next</button>
 
 
 @code {
-
+    //Code to create a list of all Data in the StoreApps
     string responseBody = "";
     List<StoreApp> StoreApps = new List<StoreApp>();
 
     //Get Store Apps to show on page
     protected override async Task OnInitializedAsync()
     {
-        var apiName = "api/StoreApps";
+        var apiName = "api/StoreApps"; //bring code from the API from source api/StoreApps this will bring all the Store App data in to the front end
         var httpResponse = await client.GetAsync(apiName);
 
         if (httpResponse.IsSuccessStatusCode)
@@ -90,41 +105,30 @@
         }
     }
 
-    //public int TotalPages()
-    //{
-    //    int totalPages = StoreApps.Count / appsPerPage;
-    //    return totalPages;
-    //}
     
-    //length or count variable
-
     //variables for Paginate functions
-    private int firstCountOfPage = 0;
-    private int lastCountOfPage = 10;
-    private int addToCount = 10;
-    private int pageNumber = 0;
-    private int totPages = 0;
-    public string alert = "";
+    private int pageStart = 0;//start of page will display ID=0 initially
+    private int pageEnd = 25; //ensure 25 items will display on the page
+    private int pageSize = 25; //size of page will insure 25 is added to the next page 
 
-    //Move to next set of records
+
+    //Move to next set of records - add 25 to the whole page
     private void NextCount()
     {
-        totPages = 4;
-        if (pageNumber <= totPages)
+        if (pageEnd <= StoreApps.Count) //if statement will ensure you can go no further than the last page
         {
-            firstCountOfPage += addToCount;
-            lastCountOfPage += addToCount;
-            pageNumber++;
+            pageStart += pageSize;
+            pageEnd += pageSize;
         }
     }
 
-    //Move to previous set of records
+    //Move to previous set of records - minus 25 from the whole page
     private void PreviousCount()
     {
-        if (firstCountOfPage >= addToCount)
+        if (pageStart >= pageSize) //if statement will ensure you can go no further back than the first page
         {
-            firstCountOfPage -= addToCount;
-            lastCountOfPage -= addToCount;
+            pageStart -= pageSize;
+            pageEnd -= pageSize;
         }
     }
 

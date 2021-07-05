@@ -8,23 +8,32 @@
 @using Data
 
 <div class="container-fluid">
+    <style>
+        tr:nth-child(even) {
+            background-color: #cbeff7
+        }
 
 
 
+        th {
+            background-color: #28b7ee;
+        }
+
+        h1 {
+            color: #0d277c;
+        }
+    </style>
     <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - Filter results</h3>
+        <h1 class="text-center">Store Apps - Filter results</h1>
     </div>
 
 
 
     <div class="row" style="margin:25px;">
-
-
-
         @if (StoreApps != null)
         {
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
+            <table class="table">
+                <thead class="thead">
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
@@ -60,7 +69,7 @@
                                     <option value=”Government&Politics”>Government And Politics</option>
                                     <option value=”Health&Fitness”>Health And Fitness</option>
                                     <option value=”Kids&Family”>Kids And Family</option>
-                                    <option value=”Lifestlye”>Lifestyle</option>
+                                    <option value=”Lifestyle”>Lifestyle</option>
                                     <option value=”MultimediaDesign”>Multimedia Design</option>
                                     <option value=”Music”>Music</option>
                                     <option value=”Navigation&Maps”>Navigation And Maps</option>
@@ -114,6 +123,7 @@
 </div>
 
 @code {
+    string test;
 
     string responseBody = "";
     List<StoreApp> StoreApps = new List<StoreApp>();
@@ -133,140 +143,95 @@
         }
 
     }
+
+    //Method to take in Rating selection as parameter, convert it to string, trunctuate unrecognised characters before and after words and use if statement to populate store apps filtered list with appropriate elements
     public void DisplayRatingResult(ChangeEventArgs value)
     {
-        string rating = value.Value.ToString();
-        {
-            switch (rating)
-            {
-                case "1":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(1))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-
-                        }
-                    }
-                    break;
-                case "1.5":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(1.5))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "2":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(2))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "2.5":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating == "2.5")
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "3":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(3))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "3.5":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(3.5))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "4":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(4))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "4.5":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(4.5))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-                case "5":
-
-                    foreach (var storeapp in StoreApps)
-                    {
-                        if (storeapp.Rating.Equals(5))
-                        {
-                            StoreAppsFiltered.Add(storeapp);
-                        }
-                    }
-                    break;
-            }
-        }
-    }
-    public void DisplayCategoryResult(ChangeEventArgs value)
-    {
+        test = (string)value.Value;
+        string newval = test.Substring(1, test.Length - 2);
+        test = newval;
         StoreAppsFiltered.Clear();
-        string Categories = value.Value.ToString();
+
         foreach (var storeapp in StoreApps)
         {
-            if (storeapp.Category.Contains(Categories))
+            if (storeapp.Rating == test)
             {
                 StoreAppsFiltered.Add(storeapp);
             }
         }
     }
+
+    //Method to take in Category selection as parameter, convert it to string with the appropriate spacing, trunctuate unrecognised characters before and after words and use if statement to populate store apps filtered list with appropriate elements
+    public void DisplayCategoryResult(ChangeEventArgs value)
+    {
+        test = (string)value.Value;
+        string newval = test.Substring(1, test.Length - 2);
+        test = newval;
+        StoreAppsFiltered.Clear();
+        if (test == "DeveloperTools")
+        {
+            test = "Developer Tools";
+        }
+        else if (test == "Food&Dining")
+        {
+            test = "Food and Dining";
+        }
+        else if (test == "Government&Politics")
+        {
+            test = "Government and Politics";
+        }
+        else if (test == "Health&Fitness")
+        {
+            test = "Health and Fitness";
+        }
+        else if (test == "Kids&Family")
+        {
+            test = "Kids and Family";
+        }
+        else if (test == "MultimediaDesign")
+        {
+            test = "Multimedia Design";
+        }
+        else if (test == "Navigation&Maps")
+        {
+            test = "Navigation and Maps";
+        }
+        else if (test == "News&Weather")
+        {
+            test = "News and Weather";
+        }
+
+        foreach (var storeapp in StoreApps)
+        {
+            if (storeapp.Category == test)
+            {
+                StoreAppsFiltered.Add(storeapp);
+            }
+        }
+    }
+    //Method to take Price option selection as parameter, convert to string, trunctuate unrecognised characters before and after words and run a switch statement to populate appropriate elements into store apps filtered List
     public void DisplayPriceResult(ChangeEventArgs value)
     {
         StoreAppsFiltered.Clear();
-        string Prices = value.Value.ToString();
+        test = (string)value.Value;
+        string newval = test.Substring(1, test.Length - 2);
+        test = newval;
 
-        if (Prices == "Free")
+
+        foreach (var storeapp in StoreApps)
         {
-            foreach (var storeapp in StoreApps)
+            switch (test)
             {
-                StoreAppsFiltered.Add(storeapp);
+                case "Free":
+                    if(storeapp.Price=="Free")
+                        StoreAppsFiltered.Add(storeapp);
+                    break;
+                case "Paid":
+                    if(storeapp.Price!="Free")
+                        StoreAppsFiltered.Add(storeapp);
+                    break;
             }
         }
-        else if (Prices == "Paid")
-        {
-            foreach (var storeapp in StoreApps)
-            {
-                StoreAppsFiltered.Add(storeapp);
-            }
-        }
-
-
-
     }
 }
 
