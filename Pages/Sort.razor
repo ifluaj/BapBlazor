@@ -7,45 +7,72 @@
 @using Data
 
 <div class="container-fluid">
+    <style>
+        tr:nth-child(even) {
+            background-color: #cbeff7
+        }
+
+
+
+        th {
+            background-color: #28b7ee;
+        }
+
+        h1 {
+            color: #0d277c;
+        }
+    </style>
+
 
     <div class="row justify-content-center" style="margin-bottom:50px">
-        <h3 class="text-center">Store Apps - Sorted by Value</h3>
+        <h1 class="text-center">Store Apps - Sorted by Value</h1>
     </div>
+
+
 
     <div class="row" style="margin:25px;">
 
+
+
         @if (StoreApps != null)
         {
-            <table class="table table-bordered table-striped">
-                <thead class="thead-dark">
+            <table class="table">
+                <thead class="thead">
                     <tr>
+                        <th>        
+                            <span>ID</span>
+                            <span><a href="javascript://" @onclick="@SortTableByIdAsc"><img src="Images/up arrow.jpg " width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByIdDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
+</th>
                         <th>
-                            <a href="javascript://" @onclick="@SortTableByIdAsc">Id Ascending ||</a>
-                            <a href="javascript://" @onclick="@SortTableByIdDesc">Id Descending</a>
+                            <span>Name</span>
+                            <span><a href="javascript://" @onclick="@SortTableByNameAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByNameDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
                         </th>
                         <th>
-                            <a href="javascript://" @onclick="@SortTableByNameAsc">Name Ascending || </a>
-                            <a href="javascript://" @onclick="@SortTableByNameDesc">Name Descending</a>
+                            <span>Rating</span>
+                            <span><a href="javascript://" @onclick="@SortTableByRatingAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByRatingDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
                         </th>
                         <th>
-                            <a href="javascript://" @onclick="@SortTableByRatingAsc">Rating Ascending || </a>
-                            <a href="javascript://" @onclick="@SortTableByRatingDesc">Rating Descending</a>
+                            <span>People</span>
+                            <span><a href="javascript://" @onclick="@SortTableByPeopleAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByPeopleDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
                         </th>
                         <th>
-                            <a href="javascript://" @onclick="@SortTableByPeopleAsc">People Ascending || </a>
-                            <a href="javascript://" @onclick="@SortTableByPeopleDesc">People Descending</a>
+                            <span>Category</span>
+                            <span><a href="javascript://" @onclick="@SortTableByCategoryAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByCategoryDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
                         </th>
                         <th>
-                            <a href="javascript://" @onclick="@SortTableByCategoryAsc">Category Ascending || </a>
-                            <a href="javascript://" @onclick="@SortTableByCategoryDesc">Category Descending</a>
+                            <span>Date</span>
+                            <span><a href="javascript://" @onclick="@SortTableByDateAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByDateDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
                         </th>
                         <th>
-                            <a href="javascript://" @onclick="@SortTableByDateAsc">Date Ascending ||</a>
-                            <a href="javascript://" @onclick="@SortTableByDateDesc">Date Descending</a>
-                        </th>
-                        <th>
-                            <a href="javascript://" @onclick="@SortTableByPriceAsc">Price Ascending ||</a>
-                            <a href="javascript://" @onclick="@SortTableByPriceDesc">Price Descending</a>
+                            <span>Price</span>
+                            <span><a href="javascript://" @onclick="@SortTableByPriceAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
+                            <span><a href="javascript://" @onclick="@SortTableByPriceDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
                         </th>
                     </tr>
                 </thead>
@@ -61,6 +88,8 @@
                             <td>@storeapp.Date</td>
                             <td>@storeapp.Price</td>
 
+
+
                         </tr>
                     }
                 </tbody>
@@ -74,12 +103,20 @@
         }
     </div>
 
+
+
 </div>
+
+
 
 @code {
 
+
+
     string responseBody = "";
     List<StoreApp> StoreApps = new List<StoreApp>();
+
+
 
 
 
@@ -88,6 +125,8 @@
         var apiName = "api/StoreApps";
         var httpResponse = await client.GetAsync(apiName);
 
+
+
         if (httpResponse.IsSuccessStatusCode)
         {
             responseBody = await httpResponse.Content.ReadAsStringAsync();
@@ -95,90 +134,144 @@
             StateHasChanged();
         }
 
+
+
     }
+
+
 
     //methods to sort by app ID number in both ascending and descending order
     public void SortTableByIdAsc()
     {
+
+
 
         StoreApps.Sort((x, y) => x.Id.CompareTo(y.Id));
     }
     public void SortTableByIdDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.Id.CompareTo(x.Id));
 
-    //methods to sort by app Name in both ascending and descending order   
+
+
+        //methods to sort by app Name in both ascending and descending order
     }
     public void SortTableByNameAsc()
     {
         StoreApps.Sort((x, y) => x.Name.CompareTo(y.Name));
 
+
+
     }
     public void SortTableByNameDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.Name.CompareTo(x.Name));
     }
+
+
 
     //methods to sort by Rating in both ascending and descending order
     public void SortTableByRatingAsc()
     {
         StoreApps.Sort((x, y) => x.Rating.CompareTo(y.Rating));
 
+
+
     }
     public void SortTableByRatingDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.Rating.CompareTo(x.Rating));
     }
+
+
 
     //methods to sort by amount of People that rated in both ascending and descending order
     public void SortTableByPeopleAsc()
     {
         StoreApps.Sort((x, y) => x.People.CompareTo(y.People));
 
+
+
     }
     public void SortTableByPeopleDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.People.CompareTo(x.People));
     }
+
+
 
     //methods to sort by app Category in both ascending and descending order
     public void SortTableByCategoryAsc()
     {
         StoreApps.Sort((x, y) => x.Category.CompareTo(y.Category));
 
+
+
     }
     public void SortTableByCategoryDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.Category.CompareTo(x.Category));
     }
 
-    //methods to sort by Date app was registered in both ascending and descending order
+
+
+    //methods to convert date to display year first, then sort by Date app was registered in both ascending and descending order
     public void SortTableByDateAsc()
     {
+        foreach(var storeapp in StoreApps)
+        {
+            string sourceDate = storeapp.Date;
+            DateTime sourceDatenew= DateTime.Parse(storeapp.Date);
+            string formatted = sourceDatenew.ToString("yyyy-MM-dd");
+            storeapp.Date = formatted;
+
+        }
         StoreApps.Sort((x, y) => x.Date.CompareTo(y.Date));
+
+
 
     }
     public void SortTableByDateDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.Date.CompareTo(x.Date));
     }
+
+
 
     //methods to sort by Price of each app in both ascending and descending order
     public void SortTableByPriceAsc()
     {
         StoreApps.Sort((x, y) => x.Price.CompareTo(y.Price));
 
+
+
     }
     public void SortTableByPriceDesc()
     {
 
+
+
         StoreApps.Sort((x, y) => y.Price.CompareTo(x.Price));
     }
+
+
 
 }

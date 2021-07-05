@@ -1,0 +1,272 @@
+@page "/filter"
+
+@using System.Net.Http
+
+@inject HttpClient client
+
+@using Newtonsoft.Json
+@using Data
+
+<div class="container-fluid">
+
+
+
+    <div class="row justify-content-center" style="margin-bottom:50px">
+        <h3 class="text-center">Store Apps - Filter results</h3>
+    </div>
+
+
+
+    <div class="row" style="margin:25px;">
+
+
+
+        @if (StoreApps != null)
+        {
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>
+                            Rating
+                            <form>
+                                <select name="dropdown" @onchange="@DisplayRatingResult">
+                                    <option value=”Select”>Select</option>
+                                    <option value=”5”>5</option>
+                                    <option value=”4.5”>4.5</option>
+                                    <option value=”4”>4</option>
+                                    <option value=”3.5”>3.5</option>
+                                    <option value=”3”>3</option>
+                                    <option value=”2.5”>2.5</option>
+                                    <option value=”2”>2</option>
+                                    <option value=”1.5”>1.5</option>
+                                    <option value=”1”>1</option>
+                                    <option value=”1.5”>0.5</option>
+                                    <option value=”0”>0</option>
+                                </select>
+                            </form>
+                        </th>
+                        <th>People</th>
+                        <th>
+                            Category
+                            <form>
+                                <select name="dropdown" @onchange="@DisplayCategoryResult">
+                                    <option value=”Select”>Select</option>
+                                    <option value=”Books”>Books</option>
+                                    <option value=”Business”>Business</option>
+                                    <option value=”DeveloperTools”>Developer Tools</option>
+                                    <option value=”Food&Dining”>Food And Dining</option>
+                                    <option value=”Government&Politics”>Government And Politics</option>
+                                    <option value=”Health&Fitness”>Health And Fitness</option>
+                                    <option value=”Kids&Family”>Kids And Family</option>
+                                    <option value=”Lifestlye”>Lifestyle</option>
+                                    <option value=”MultimediaDesign”>Multimedia Design</option>
+                                    <option value=”Music”>Music</option>
+                                    <option value=”Navigation&Maps”>Navigation And Maps</option>
+                                    <option value=”News&Weather”>News And Weather</option>
+                                    <option value=”Social”>Social</option>
+                                </select>
+                            </form>
+                        </th>
+                        <th>Date</th>
+                        <th>
+                            Price
+                            <form>
+                                <select name="dropdown" @onchange="@DisplayPriceResult">
+                                    <option value=”Select”>Select</option>
+                                    <option value=”Free”>Free</option>
+                                    <option value=”Paid”>Paid</option>
+                                </select>
+                            </form>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var storeapp in StoreAppsFiltered)
+                    {
+                        <tr class="justify-content-center">
+                            <td>@storeapp.Id</td>
+                            <td>@storeapp.Name</td>
+                            <td>@storeapp.Rating</td>
+                            <td>@storeapp.People</td>
+                            <td>@storeapp.Category</td>
+                            <td>@storeapp.Date</td>
+                            <td>@storeapp.Price</td>
+
+
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        @if (!StoreApps.Any())
+        {
+            <div class="justify-content-center">
+                <h5>No records to show</h5>
+            </div>
+        }
+    </div>
+
+
+
+</div>
+
+@code {
+
+    string responseBody = "";
+    List<StoreApp> StoreApps = new List<StoreApp>();
+    List<StoreApp> StoreAppsFiltered = new List<StoreApp>();
+    string mainVariable;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var apiName = "api/StoreApps/";
+        var httpResponse = await client.GetAsync(apiName);
+
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            responseBody = await httpResponse.Content.ReadAsStringAsync();
+            StoreApps = JsonConvert.DeserializeObject<List<StoreApp>>(responseBody);
+            StateHasChanged();
+        }
+
+    }
+    public void DisplayRatingResult(ChangeEventArgs value)
+    {
+        string rating = value.Value.ToString();
+        {
+            switch (rating)
+            {
+                case "1":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(1))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+
+                        }
+                    }
+                    break;
+                case "1.5":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(1.5))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "2":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(2))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "2.5":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating == "2.5")
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "3":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(3))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "3.5":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(3.5))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "4":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(4))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "4.5":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(4.5))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+                case "5":
+
+                    foreach (var storeapp in StoreApps)
+                    {
+                        if (storeapp.Rating.Equals(5))
+                        {
+                            StoreAppsFiltered.Add(storeapp);
+                        }
+                    }
+                    break;
+            }
+        }
+    }
+    public void DisplayCategoryResult(ChangeEventArgs value)
+    {
+        StoreAppsFiltered.Clear();
+        string Categories = value.Value.ToString();
+        foreach (var storeapp in StoreApps)
+        {
+            if (storeapp.Category.Contains(Categories))
+            {
+                StoreAppsFiltered.Add(storeapp);
+            }
+        }
+    }
+    public void DisplayPriceResult(ChangeEventArgs value)
+    {
+        StoreAppsFiltered.Clear();
+        string Prices = value.Value.ToString();
+
+        if (Prices == "Free")
+        {
+            foreach (var storeapp in StoreApps)
+            {
+                StoreAppsFiltered.Add(storeapp);
+            }
+        }
+        else if (Prices == "Paid")
+        {
+            foreach (var storeapp in StoreApps)
+            {
+                StoreAppsFiltered.Add(storeapp);
+            }
+        }
+
+
+
+    }
+}
+
