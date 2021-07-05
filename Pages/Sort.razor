@@ -39,11 +39,11 @@
             <table class="table">
                 <thead class="thead">
                     <tr>
-                        <th>        
+                        <th>
                             <span>ID</span>
                             <span><a href="javascript://" @onclick="@SortTableByIdAsc"><img src="Images/up arrow.jpg " width="25" /></a></span>
                             <span><a href="javascript://" @onclick="@SortTableByIdDesc"><img src="Images/down arrow.jpg" width="25" /></a></span>
-</th>
+                        </th>
                         <th>
                             <span>Name</span>
                             <span><a href="javascript://" @onclick="@SortTableByNameAsc"><img src="Images/up arrow.jpg" width="25" /></a></span>
@@ -233,10 +233,10 @@
     //methods to convert date to display year first, then sort by Date app was registered in both ascending and descending order
     public void SortTableByDateAsc()
     {
-        foreach(var storeapp in StoreApps)
+        foreach (var storeapp in StoreApps)
         {
             string sourceDate = storeapp.Date;
-            DateTime sourceDatenew= DateTime.Parse(storeapp.Date);
+            DateTime sourceDatenew = DateTime.Parse(storeapp.Date);
             string formatted = sourceDatenew.ToString("yyyy-MM-dd");
             storeapp.Date = formatted;
 
