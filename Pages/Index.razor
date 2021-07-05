@@ -45,7 +45,7 @@
     </style>
 
     <div class="row justify-content-center" style="margin-bottom:50px"></div>
-    <h4> Top 3 Free Apps </h4>
+    <h4> Top 3 Apps </h4>
     <div class="row" style="margin:50px;">
         @if (StoreApps != null)
         {
@@ -86,7 +86,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var apiName = "api/StoreApps/Top3Free";
+        var apiName = "api/StoreApps/Top3Apps";
         var httpResponse = await client.GetAsync(apiName);
 
         if (httpResponse.IsSuccessStatusCode)
