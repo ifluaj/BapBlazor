@@ -41,6 +41,7 @@
         {
             <table class="table">
                 <thead>
+                    <a href="javascript://" @onclick="@SortTableByDateAsc">What's New</a>
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
@@ -80,24 +81,37 @@
 
 
 @code { string responseBody = "";
-            List<StoreApp> StoreApps = new List<StoreApp>();
+    List<StoreApp> StoreApps = new List<StoreApp>();
 
 
 
-            protected override async Task OnInitializedAsync()
-            {
-                var apiName = "api/StoreApps/New";
-                var httpResponse = await client.GetAsync(apiName);
+    protected override async Task OnInitializedAsync()
+    {
+        var apiName = "api/StoreApps/";
+        var httpResponse = await client.GetAsync(apiName);
 
 
 
-                if (httpResponse.IsSuccessStatusCode)
-                {
-                    responseBody = await httpResponse.Content.ReadAsStringAsync();
-                    StoreApps = JsonConvert.DeserializeObject<List<StoreApp>>(responseBody);
-                    StateHasChanged();
-                }
+        if (httpResponse.IsSuccessStatusCode)
+        {
+            responseBody = await httpResponse.Content.ReadAsStringAsync();
+            StoreApps = JsonConvert.DeserializeObject<List<StoreApp>>(responseBody);
+            StateHasChanged();
+        }
+
+    }
+    public void SortTableByDateAsc()
+    {
+        foreach (var storeapp in StoreApps)
+        {
+            string sourceDate = storeapp.Date;
+            DateTime sourceDatenew = DateTime.Parse(storeapp.Date);
+            string formatted = sourceDatenew.ToString("yyyy-MM-dd");
+            storeapp.Date = formatted;
+
+        }
+        StoreApps.Sort((x, y) => y.Date.CompareTo(x.Date));
 
 
 
-            } }
+    } }
