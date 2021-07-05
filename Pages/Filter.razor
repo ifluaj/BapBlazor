@@ -31,7 +31,7 @@
                         <th>
                             Rating
                             <form>
-                                <select name="dropdown"@onchange="@DisplayRatingResult">
+                                <select name="dropdown" @onchange="@DisplayRatingResult">
                                     <option value=”Select”>Select</option>
                                     <option value=”5”>5</option>
                                     <option value=”4.5”>4.5</option>
@@ -51,7 +51,7 @@
                         <th>
                             Category
                             <form>
-                                <select name="dropdown">
+                                <select name="dropdown" @onchange="@DisplayCategoryResult">
                                     <option value=”Select”>Select</option>
                                     <option value=”Books”>Books</option>
                                     <option value=”Business”>Business</option>
@@ -73,7 +73,7 @@
                         <th>
                             Price
                             <form>
-                                <select name="dropdown"@onchange="@DisplayPriceResult">
+                                <select name="dropdown" @onchange="@DisplayPriceResult">
                                     <option value=”Select”>Select</option>
                                     <option value=”Free”>Free</option>
                                     <option value=”Paid”>Paid</option>
@@ -141,9 +141,9 @@
             {
                 case "1":
 
-                    foreach(var storeapp in StoreApps)
+                    foreach (var storeapp in StoreApps)
                     {
-                        if (storeapp.Rating.Equals (1))
+                        if (storeapp.Rating.Equals(1))
                         {
                             StoreAppsFiltered.Add(storeapp);
 
@@ -233,6 +233,18 @@
             }
         }
     }
+    public void DisplayCategoryResult(ChangeEventArgs value)
+    {
+        StoreAppsFiltered.Clear();
+        string Categories = value.Value.ToString();
+        foreach (var storeapp in StoreApps)
+        {
+            if (storeapp.Category.Contains(Categories))
+            {
+                StoreAppsFiltered.Add(storeapp);
+            }
+        }
+    }
     public void DisplayPriceResult(ChangeEventArgs value)
     {
         StoreAppsFiltered.Clear();
@@ -240,7 +252,8 @@
 
         if (Prices == "Free")
         {
-            foreach (var storeapp in StoreApps) {
+            foreach (var storeapp in StoreApps)
+            {
                 StoreAppsFiltered.Add(storeapp);
             }
         }
@@ -255,5 +268,5 @@
 
 
     }
-        }
+}
 
